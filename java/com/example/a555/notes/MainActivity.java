@@ -1,13 +1,14 @@
 package com.example.a555.notes;
 
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.example.a555.notes.fragments.DetailFragment;
 import com.example.a555.notes.fragments.EditFragment;
 import com.example.a555.notes.fragments.MainFragment;
 import com.example.a555.notes.models.Note;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentChange {
+public class MainActivity extends FragmentActivity implements MainFragment.OnFragmentChange {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +24,25 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     }
 
     @Override
-    public void openFragment(int fragment, Note note) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, new EditFragment())
-                .addToBackStack(null)
-                .commit();
+    public void openFragment(int fragToOpen, Note note) {
+        switch (fragToOpen){
+            case EditFragment.OPEN:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new EditFragment())
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case DetailFragment.OPEN:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, DetailFragment.newInstance(note))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+
+            case MainFragment.OPEN:
+                break;
+        }
     }
 }

@@ -55,7 +55,6 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
 
-
         final ListView listView = (ListView) view.findViewById(R.id.main_fragment_listview);
 
         final NoteAdapter adapter = new NoteAdapter(context, noteDB.getNotes());
@@ -65,9 +64,7 @@ public class MainFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Note note = NoteDB.getInstance(context).getNote((int)view.getTag());
-                onFragmentChange.openFragment(DetailFragment.OPEN, note);
-
+                onFragmentChange.openFragment(DetailFragment.OPEN, NoteDB.getInstance(context).getNote((int)view.getTag()));
             }
         });
 
@@ -94,7 +91,6 @@ public class MainFragment extends Fragment {
                 return false;
             }
         });
-
         ImageButton addNoteBtn = (ImageButton) view.findViewById(R.id.main_fragment_btnadd);
 
         //go to EditFragment to add new note
@@ -107,10 +103,12 @@ public class MainFragment extends Fragment {
 
 
 
+
+
         return view;
     }
 
     public interface OnFragmentChange{
-        public void openFragment(int fragment, Note note);
+        public void openFragment(int fragToOpen, Note note);
     }
 }
